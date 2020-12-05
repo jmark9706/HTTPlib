@@ -3,12 +3,15 @@
     This sketch sends a string to a TCP server, and prints a one-line response.
     You must run a TCP server in your local network.
     For example, on Linux you can use this command: nc -v -l 3000
+	
+	HTTPlib development
 */
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <Wire.h>
 #include <SparkFunBME280.h>
+#include "HTTPlib.h"
 #ifndef STASSID
 #define STASSID "cirrus"
 #define STAPSK  "7138982048"
