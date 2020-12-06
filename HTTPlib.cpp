@@ -17,3 +17,11 @@ void HTTPhelper::kvparm(String key, String pval)
   wclient.print("=");
   wclient.print(pval);
 }
+void HTTPhelper::kvamper(void)
+{
+  wclient.print(ampersand);
+}
+void HTTPhelper::kvend(void)
+{
+  wclient.print(httpRequest4);
+}

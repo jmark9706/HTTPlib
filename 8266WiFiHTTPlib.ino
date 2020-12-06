@@ -73,14 +73,20 @@ void setup() {
 //////  LOOP starts here ////////////////////////////////////////////////////////////
 
 void loop() {
-
-  // get readings
-Serial.println("Start of main loop");
+  Serial.println("Start of main loop");
+  delay(300);
+  // 
+  String humidity, baro, alt, temp, device;
+  device="0001";
 Serial.println(" test \" quote");
+for (uint16_t i=0;i<25;i++){
+  // get readings
+
 
 Serial.print("Humidity: ");
+  humidity = mySensor.readFloatHumidity();
   Serial.print(mySensor.readFloatHumidity(), 0);
-
+  baro = mySensor.readFloatPressure();
   Serial.print(" Pressure: ");
   Serial.print(mySensor.readFloatPressure(), 0);
 
@@ -93,7 +99,7 @@ Serial.print("Humidity: ");
   Serial.print(mySensor.readTempF(), 2);
 
   Serial.println();
-
+}
   delay(50);
   ////////
   Serial.print("connecting to ");
@@ -114,7 +120,7 @@ Serial.print("Humidity: ");
   // This will send the request to the server
   client.println("hello from ESP8266");
   // Send initial http request 
-   js(client);
+  http.kvstart();
   //read back one line from server
   Serial.println("receiving from remote server");
   String line = client.readStringUntil('\r');
