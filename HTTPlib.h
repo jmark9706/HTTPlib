@@ -5,14 +5,17 @@
 
 class HTTPhelper
 {public:
-	HTTPhelper();
-	void kvstart(WiFiClient client);
+	HTTPhelper(WiFiClient client);
+	void kvstart(void);
+  void kvparm(String key, String pval);
 private:
+WiFiClient wclient;
 const String httpRequest2 = "GET /parms?temp=";
 const String httpRequest3 = "&humidity=";
 const String httpRequest4 = "\nHTTP/1.1\n"
                            "Host: 10.0.0.151\n"
                            "Connection: close\n\n";
+const String amper = "&";
 };
 
 

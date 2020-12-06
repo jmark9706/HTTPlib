@@ -1,13 +1,19 @@
 // HTTPlib - helpers
 #include "HTTPlib.h"
 
-HTTPhelper::HTTPhelper()
-{
+HTTPhelper::HTTPhelper(WiFiClient client)
+{ wclient=client;
 };
 
 
-void HTTPhelper::kvstart(WiFiClient client)
+void HTTPhelper::kvstart()
 {
-	client.print("999");
-  client.print(this->httpRequest2);
+
+  wclient.print(this->httpRequest2);
 };
+void HTTPhelper::kvparm(String key, String pval)
+{
+  wclient.print(key);
+  wclient.print("=");
+  wclient.print(pval);
+}

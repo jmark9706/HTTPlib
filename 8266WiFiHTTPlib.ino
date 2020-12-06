@@ -28,9 +28,15 @@ ESP8266WiFiMulti WiFiMulti;
 
  /////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
-  Serial.begin(115200);
-  Serial.println("ESP8266 WiFi client plus BME280 sensor");
+  
+    Serial.begin(115200);
+  delay(5000);
+  Serial.println("\r\n");
+  for (uint16_t i=0;i<10;i++)
+  {Serial.print("Start ----> ESP8266 WiFi client plus BME280 sensor --> ");
+  Serial.println(String(i));}
   // We start by connecting to a WiFi network
+  Serial.println(" We start by connecting to a WiFi network");
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP(ssid, password);
 
@@ -69,8 +75,8 @@ void setup() {
 void loop() {
 
   // get readings
-
-Serial.print(" test \" quote");
+Serial.println("Start of main loop");
+Serial.println(" test \" quote");
 
 Serial.print("Humidity: ");
   Serial.print(mySensor.readFloatHumidity(), 0);
@@ -104,9 +110,10 @@ Serial.print("Humidity: ");
     delay(5000);
     return;
   }
-
+  HTTPhelper http(client);
   // This will send the request to the server
   client.println("hello from ESP8266");
+  // Send initial http request 
    js(client);
   //read back one line from server
   Serial.println("receiving from remote server");
@@ -118,6 +125,9 @@ Serial.print("Humidity: ");
 
   Serial.println("wait 5 sec...");
   delay(5000);
-
+  Serial.println("Going into deep sleep for 15");
+  ESP.deepSleep(15e6);
+  // There ain't no coming back from the deep sleep....
+  // We just start over again!!!!!!
  
 }
