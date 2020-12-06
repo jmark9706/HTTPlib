@@ -20,7 +20,8 @@
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 
-const char* host = "40n.us";
+//const char* host = "40n.us";
+const char* host = "10.0.0.151";
 const uint16_t port = 80;
 
 ESP8266WiFiMulti WiFiMulti;
@@ -118,9 +119,12 @@ Serial.print("Humidity: ");
   }
   HTTPhelper http(client);
   // This will send the request to the server
-  client.println("hello from ESP8266");
+  //client.println("hello from ESP8266");
   // Send initial http request 
   http.kvstart();
+  http.kvparm("humidity",humidity,1);
+  http.kvparm("device", device, 0);
+  http.kvend();
   //read back one line from server
   Serial.println("receiving from remote server");
   String line = client.readStringUntil('\r');

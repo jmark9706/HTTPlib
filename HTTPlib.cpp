@@ -11,11 +11,12 @@ void HTTPhelper::kvstart()
 
   wclient.print(this->httpRequest2);
 };
-void HTTPhelper::kvparm(String key, String pval)
+void HTTPhelper::kvparm(String key, String pval, uint16_t sep)
 {
   wclient.print(key);
   wclient.print("=");
   wclient.print(pval);
+  if(sep == 1) {wclient.print(ampersand);}
 }
 void HTTPhelper::kvamper(void)
 {
