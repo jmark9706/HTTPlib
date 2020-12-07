@@ -90,11 +90,11 @@ Serial.print("Humidity: ");
   baro = mySensor.readFloatPressure();
   Serial.print(" Pressure: ");
   Serial.print(mySensor.readFloatPressure(), 0);
-
+  alt = mySensor.readFloatAltitudeMeters();
   Serial.print(" Alt: ");
   //Serial.print(mySensor.readFloatAltitudeMeters(), 1);
   Serial.print(mySensor.readFloatAltitudeFeet(), 1);
-
+  temp = mySensor.readTempF();
   Serial.print(" Temp: ");
   //Serial.print(mySensor.readTempC(), 2);
   Serial.print(mySensor.readTempF(), 2);
@@ -123,6 +123,9 @@ Serial.print("Humidity: ");
   // Send initial http request 
   http.kvstart();
   http.kvparm("humidity",humidity,1);
+  http.kvparm("altitude",alt,1);
+  http.kvparm("baro", baro, 1);
+  http.kvparm("temp", temp, 1);
   http.kvparm("device", device, 0);
   http.kvend();
   //read back one line from server
