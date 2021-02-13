@@ -1,6 +1,9 @@
 /* 8266 wifi client basic 8266WiFiBME280
+ *  This has deep sleep, this reports to the web server with query parms
+ *  This is Version 1.0
+ *  
  *  The BME280 I2C is built on this code
-    This sketch sends a string to a TCP server, and prints a one-line response.
+    This sketch sends a string to a web server, and prints a one-line response.
     You must run a TCP server in your local network.
     For example, on Linux you can use this command: nc -v -l 3000
 	
@@ -66,7 +69,10 @@ void setup() {
   {
     Serial.println("The sensor did not respond. Please check wiring.");
     delay (2000);
+   // Serial.println("jump to elfin");
+   // goto elfin2;
   }
+  elfin2:
   Serial.println("Sensor responded");
   delay(500);
 }
@@ -78,13 +84,15 @@ void loop() {
   delay(300);
   // 
   String humidity, baro, alt, temp, device;
-  device="0001";
+  // device is just a string, Version is added for me to keep track of it
+  device="0001-V1.0";
+  // Since we just reset due to sleeping, sample the BME280 multiple times
+  // before sending to the web server
 Serial.println(" test \" quote");
 for (uint16_t i=0;i<25;i++){
   // get readings
 
-
-Serial.print("Humidity: ");
+  Serial.print("Humidity: ");
   humidity = mySensor.readFloatHumidity();
   Serial.print(mySensor.readFloatHumidity(), 0);
   baro = mySensor.readFloatPressure();
@@ -98,10 +106,9 @@ Serial.print("Humidity: ");
   Serial.print(" Temp: ");
   //Serial.print(mySensor.readTempC(), 2);
   Serial.print(mySensor.readTempF(), 2);
-
   Serial.println();
 }
-  delay(50);
+  //delay(50);
   ////////
   Serial.print("connecting to ");
   Serial.print(host);
@@ -123,7 +130,7 @@ Serial.print("Humidity: ");
   // Send initial http request 
   http.kvstart();
   http.kvparm("humidity",humidity,1);
-  http.kvparm("altitude",alt,1);
+  http.kvparm("alt",alt,1);
   http.kvparm("baro", baro, 1);
   http.kvparm("temp", temp, 1);
   http.kvparm("device", device, 0);
@@ -135,11 +142,13 @@ Serial.print("Humidity: ");
 
   Serial.println("closing connection");
   client.stop();
-
-  Serial.println("wait 5 sec...");
-  delay(5000);
-  Serial.println("Going into deep sleep for 15");
-  ESP.deepSleep(15e6);
+  goto normal;
+  elfin: 
+  Serial.println("Sensor did not respond");
+  normal: Serial.println("wait 5 sec...");
+  // delay(5000);
+  Serial.println("Going into deep sleep for 50");
+  ESP.deepSleep(50e6);
   // There ain't no coming back from the deep sleep....
   // We just start over again!!!!!!
  
